@@ -7,7 +7,7 @@
   Very useful for testing a card when you're not sure whether its working or not.
 
   The circuit:
-    SD card attached to SPI bus as follows:
+    SD card attached to SPI 2 bus as follows:
  ** MOSI - PB14
  ** MISO - PB15
  ** CLK - PB13
@@ -44,7 +44,14 @@ const int chipSelect = PB12;
 void setup() {
   // Open serial communications and wait for port to open:
   Serial.begin(9600);
-  delay(10000); // wait for win10 to init usb serial
+
+  for(byte i = 0; i< 10; i++)
+  {
+    Serial.print(i);
+    Serial.print('.');
+    delay(1000); // wait for win10 to init usb serial
+  }
+  Serial.println();
 
   Serial.print("\nInitializing SD card...");
   SPI.setModule (2);  // SPI port 2 (5v port)
