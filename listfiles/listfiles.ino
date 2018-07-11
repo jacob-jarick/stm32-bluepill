@@ -53,9 +53,8 @@ void setup() {
   }
   Serial.println("initialization done.");
 
-  root = SD.open("/");
 
-  printDirectory(root, 0);
+  printDirectory();
 
   Serial.println("done!");
 }
@@ -64,7 +63,10 @@ void loop() {
   // nothing happens after setup finishes.
 }
 
-void printDirectory(File dir, int numTabs) {
+void printDirectory() {
+
+    File dir = SD.open("/");
+
   while (true) {
 
     File entry =  dir.openNextFile();
@@ -72,13 +74,10 @@ void printDirectory(File dir, int numTabs) {
       // no more files
       break;
     }
-    for (uint8_t i = 0; i < numTabs; i++) {
-      Serial.print('\t');
-    }
     Serial.print(entry.name());
     if (entry.isDirectory()) {
       Serial.println("/");
-      printDirectory(entry, numTabs + 1);
+      //printDirectory(entry, numTabs + 1);
     } else {
       // files have sizes, directories do not
       Serial.print("\t\t");
@@ -86,6 +85,7 @@ void printDirectory(File dir, int numTabs) {
     }
     entry.close();
   }
+  dir.close();
 }
 
 
